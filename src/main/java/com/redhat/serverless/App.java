@@ -6,6 +6,7 @@ import org.apache.camel.builder.RouteBuilder;
 
 public class App extends RouteBuilder {
     private final Handler messageHandler;
+    private final String consumerGroup;
     private final String topic;
     private final String brokers;
 
@@ -21,11 +22,16 @@ public class App extends RouteBuilder {
         if (brokers == null) {
             throw new IllegalStateException("KAFKA_BOOTSTRAP_SERVERS environment variable is required");
         }
+
+        consumerGroup = System.getenv("KAFKA_CONSUMER_GROUP");
+        if (consumerGroup == null) {
+            throw new IllegalStateException("KAFKA_CONSUMER_GROUP environment variable is required");
+        }
     }
 
     @Override
     public void configure() throws Exception {
-        String uri = String.format("kafka:%s?brokers=%s", topic, brokers);
+        String uri = String.format("kafka:%s?brokers=%s&groupId=%s", topic, brokers, consumerGroup);
 
         from(uri).process(e -> {
             String message = e.getMessage().getBody(String.class);

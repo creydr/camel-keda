@@ -22,3 +22,20 @@ Example app to read from a given Kafka topic and processing the message. Based o
       ```
       kubectl logs -l app.kubernetes.io/name: camel-app
       ```
+
+## Scale app with KEDA
+
+You can scale the app with KEDA to distribute the message processing on multiple instances.
+
+1. Apply the ScaledObject
+   ```
+   kubectl apply -f keda-scaler.yaml
+   ```
+2. Produce some load on the Kafka topic
+   ```
+   kubectl -n kafka run kafka-producer --rm -ti --image=quay.io/strimzi/kafka:0.47.0-kafka-4.0.0 --rm=true --restart=Never -- bin/kafka-producer-perf-test.sh --topic my-topic --num-records 100000 --record-size 10 --throughput -1 --producer-props bootstrap.servers=my-cluster-kafka-bootstrap:9092
+   ```
+3. Check how the camel-app gets upscaled by KEDA:
+   ```
+   kubectl get po -l app.kubernetes.io/name: camel-app -w
+   ```

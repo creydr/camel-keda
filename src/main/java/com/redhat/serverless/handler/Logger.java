@@ -7,6 +7,13 @@ public class Logger implements Handler{
 
     @Override
     public void handle(String message) {
+        // adding a bit of a lag
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         logger.info("Received: {}", message);
     }
 }

@@ -63,6 +63,8 @@ EOF
 header_text "Installing Strimzi Operator"
 kubectl create namespace kafka
 kubectl create -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka
+header_text "Deploy a Kafka UI"
+kubectl apply -f https://gist.githubusercontent.com/creydr/96b823bd44011d3c2d3faeb41dbbcfd0/raw/726cb8588b5ffd8d8ea2965e60a2683ce34a10c4/kafka-ui.yaml -n kafka
 header_text "Waiting for Strimzi Operator to become ready"
 kubectl wait deployment --all --timeout=-1s --for=condition=Available -n kafka
 header_text "Create an Apache Kafka Cluster"

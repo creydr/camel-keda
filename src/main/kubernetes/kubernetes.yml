@@ -26,3 +26,5 @@ spec:
           value: "my-cluster-kafka-bootstrap.kafka:9092"
         - name: KAFKA_TOPIC_NAME
           value: "my-topic"
+        - name: KAFKA_CONSUMER_GROUP
+          value: "camel-app"

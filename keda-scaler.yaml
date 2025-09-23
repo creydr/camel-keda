@@ -1,0 +1,17 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: camel-app-scaler
+spec:
+  scaleTargetRef:
+    name: camel-app
+  pollingInterval: 30
+  triggers:
+    - type: kafka
+      metadata:
+        bootstrapServers: my-cluster-kafka-bootstrap.kafka:9092
+        consumerGroup: camel-app
+        topic: my-topic
+        # Optional
+        lagThreshold: "50"
+        offsetResetPolicy: latest
