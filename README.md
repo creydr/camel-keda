@@ -1,1 +1,24 @@
-# camel-keda
+# Example Kafka-Camel-KEDA App
+
+## Kafka App based on Camel
+
+Example app to read from a given Kafka topic and processing the message. Based on Apache Camel. 
+
+1. Create a Cluster with a local registry and Kafka (e.g. via [./hack/create-kind-cluster.sh](./hack/create-kind-cluster.sh))
+2. Build and deploy the app to the local registry (localhost:5001):
+   ```
+   mvn package
+   ```
+3. Apply manifests (and optionally adjust before):
+   ```
+   kubectl apply -f target/kubernetes/kubernetes.yml
+   ```
+4. Test if messages get handled/logged: 
+   1. Produce some Kafka messages in the topic
+      ```
+      kubectl -n kafka run kafka-producer --rm -ti --image=quay.io/strimzi/kafka:0.47.0-kafka-4.0.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --bootstrap-server my-cluster-kafka-bootstrap:9092 --topic my-topic
+      ```
+   2. check the app logs
+      ```
+      kubectl logs -l app.kubernetes.io/name: camel-app
+      ```
