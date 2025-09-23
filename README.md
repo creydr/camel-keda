@@ -23,6 +23,10 @@ Example app to read from a given Kafka topic and processing the message. Based o
       kubectl logs -l app.kubernetes.io/name: camel-app
       ```
 
+### Configure message forwarding
+
+It is possible to forward the messages to another Kafka Topic, which can be specified in the `KAFKA_SINK_TOPIC_NAME` env.
+
 ## Scale app with KEDA
 
 You can scale the app with KEDA to distribute the message processing on multiple instances.
