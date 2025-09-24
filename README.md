@@ -41,5 +41,5 @@ You can scale the app with KEDA to distribute the message processing on multiple
    ```
 3. Check how the camel-app gets upscaled by KEDA:
    ```
-   kubectl get po -l app.kubernetes.io/name: camel-app -w
+   kubectl get po -l app.kubernetes.io/name=camel-app -w
    ```
